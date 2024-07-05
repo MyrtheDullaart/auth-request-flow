@@ -23,7 +23,18 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/profile', (req, res) => {
-  
+    const token = req.headers.authorization
+
+    try {
+        jwt.verify(token, secret)
+        res.json({
+            profile: mockUser.profile
+        })
+      } catch(err) {
+        res.status(401).json({
+            message: 'Failure to get profile, not authorised'
+        })
+      }
 });
 
 
